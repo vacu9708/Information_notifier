@@ -1,0 +1,36 @@
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\bin\Release\net6.0-windows\Information notifier.exe
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\bin\Release\net6.0-windows\Information notifier.deps.json
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\bin\Release\net6.0-windows\Information notifier.runtimeconfig.json
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\bin\Release\net6.0-windows\Information notifier.dll
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\bin\Release\net6.0-windows\ref\Information notifier.dll
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\bin\Release\net6.0-windows\Information notifier.pdb
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information_notifier.Form1.resources
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information_notifier.Form2.resources
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.GenerateResource.cache
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.GeneratedMSBuildEditorConfig.editorconfig
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.AssemblyInfoInputs.cache
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.AssemblyInfo.cs
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.CoreCompileInputs.cache
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.dll
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\ref\Information notifier.dll
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.pdb
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.genruntimeconfig.cache
+G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.AssemblyReference.cache
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.AssemblyReference.cache
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier.Form1.resources
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier.Form2.resources
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.GenerateResource.cache
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.GeneratedMSBuildEditorConfig.editorconfig
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.AssemblyInfoInputs.cache
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.AssemblyInfo.cs
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.CoreCompileInputs.cache
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.genruntimeconfig.cache
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\bin\Release\net6.0-windows\Information_notifier_frontend.exe
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\bin\Release\net6.0-windows\Information_notifier_frontend.deps.json
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\bin\Release\net6.0-windows\Information_notifier_frontend.runtimeconfig.json
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\bin\Release\net6.0-windows\Information_notifier_frontend.dll
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\bin\Release\net6.0-windows\ref\Information_notifier_frontend.dll
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\bin\Release\net6.0-windows\Information_notifier_frontend.pdb
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier_frontend.dll
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\ref\Information_notifier_frontend.dll
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier_frontend.pdb

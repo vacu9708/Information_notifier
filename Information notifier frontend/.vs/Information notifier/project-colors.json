@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "c49cfa54-4682-4094-9e88-b361219c17a5": {
+      "ProjectGuid": "c49cfa54-4682-4094-9e88-b361219c17a5",
+      "DisplayName": "Information notifier",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
