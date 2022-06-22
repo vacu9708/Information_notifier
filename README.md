@@ -5,7 +5,7 @@
 ## 🧰 Used things
 * Frontend : C#
 * Backend : python
-* 
+* Database : notepad.txt
 
 ## How to use
 1. Download chrome driver of the same version as chrome on your computer at https://chromedriver.chromium.org/downloads and 
