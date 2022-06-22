@@ -2,6 +2,9 @@
 
 ![image](https://user-images.githubusercontent.com/67142421/175102534-2bff1dc5-f5b1-4875-9822-e084140b78a7.png)
 
+## What is this program?
+It is a program that lets you know each time new information is uploaded on webpages you set.
+
 ## 🧰 Used things
 * Frontend : C#
 * Backend : python
