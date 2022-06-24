@@ -11,9 +11,10 @@ It is a program that lets you know each time new information is uploaded on webp
 * Database : notepad.txt
 
 ## How to use
+1. Log in to pages that need login on the web browser that was opened first.
 1. Put any name you want in Webpage name box.
 2. Put the webpage address you want to keep track on.
 3. What to put in Full XPath box:
-  Execute chrome -> Press Ctrl + Shift + C and click on the place whose change you want to know -> Right click on the selected part
-  -> Click on Copy -> Click on Copy Full XPath
+    Execute chrome -> Press Ctrl + Shift + C and click on the place whose change you want to know -> Right click on the selected part
+    -> Click on Copy -> Click on Copy Full XPath
 4. Execute Information notifier.cmd

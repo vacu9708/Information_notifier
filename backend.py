@@ -25,7 +25,8 @@ else:
         print("Please install chrome driver")
 
 # Get driver and open url
-driver = webdriver.Chrome(driver_path)
+driver = 0
+browser_for_login = webdriver.Chrome(driver_path)
 def open_webbrowser(hide):
     options=webdriver.ChromeOptions()
     #options=Options()
@@ -138,6 +139,7 @@ def start_monitoring(accepted_client):
             continue
         try:
             WebDriverWait(driver, 9).until(EC.presence_of_element_located((By.XPATH, X_paths[i])))
+            time.sleep(1)
         except:
             print("Timeout")   
             continue 
@@ -157,6 +159,7 @@ def start_monitoring(accepted_client):
                 continue
             try:
                 WebDriverWait(driver, 9).until(EC.presence_of_element_located((By.XPATH, X_paths[i])))
+                time.sleep(1)
             except:
                 print("Timeout")
                 continue   
@@ -183,6 +186,8 @@ def start_monitoring(accepted_client):
 
 def stop_monitoring():
     global monitoring
+    if not monitoring:
+        return
     monitoring=False
     driver.quit()
 
