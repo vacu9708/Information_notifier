@@ -11,11 +11,9 @@ It is a program that lets you know each time new information is uploaded on webp
 * Database : notepad.txt
 
 ## How to use
-1. Download chrome driver of the same version as chrome on your computer at https://chromedriver.chromium.org/downloads and 
-  put it in the folder where Webpage changes notifier.cmd is.
-2. Put any name you want in Webpage name box.
-3. Put the webpage address you want to keep track on.
-4. What to put in Full XPath box:
+1. Put any name you want in Webpage name box.
+2. Put the webpage address you want to keep track on.
+3. What to put in Full XPath box:
   Execute chrome -> Press Ctrl + Shift + C and click on the place whose change you want to know -> Right click on the selected part
   -> Click on Copy -> Click on Copy Full XPath
-5. Execute Information notifier.cmd
+4. Execute Information notifier.cmd
