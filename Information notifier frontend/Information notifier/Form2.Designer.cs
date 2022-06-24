@@ -46,7 +46,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1457, 777);
-            this.ControlBox = false;
             this.Controls.Add(this.obtained_information_list);
             this.Name = "Form2";
             this.Text = "Information displayer";

@@ -6,15 +6,14 @@ import socket
 # Selenium
 import selenium
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import subprocess
-import shutil
+#from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 driver = webdriver.Chrome()
-def open_browser(hide):
+def open_webbrowser(hide):
     options=webdriver.ChromeOptions()
     #options=Options()
     user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
@@ -72,8 +71,8 @@ def parse_database(accepted_client):
     # Response to frontend
     for i in range(len(webpage_names)):
         accepted_client.sendall(f'Webpage name: {webpage_names[i]}, X path: {X_paths[i]}$'.encode())
-        accepted_client.recv(1) # Wait for client;s response
-    accepted_client.sendall("$".encode())
+        accepted_client.recv(1) # Wait for client's response
+    accepted_client.sendall("$".encode()) # Notify it was the last row
 
 def delete_from_database(targetRow):
     currentRow=0
@@ -111,41 +110,68 @@ def append_webpage(webpage_name, URL, X_path):
     # Write on the end of database
     database = open("./webpage_list.txt", 'a', encoding='utf-8')
     database.write(f'(({webpage_name})) (({URL})) (({X_path}))\n')
-    database.close()
+    database.close()\
 
-offset=0
 monitoring=False
 def start_monitoring(accepted_client):
     global monitoring
     monitoring=True
-    global offset
     prev_hashes=[]
-    try:
-        for i, url in enumerate(URLs): # Create initial hashes
-            driver.get(URLs[i+offset])
-            element=driver.find_element(By.XPATH, X_paths[i+offset])
-            prev_hashes.append(hashlib.sha224(element.screenshot_as_png).hexdigest())
+    for i, url in enumerate(URLs): # Create initial hashes
+        try:
+            driver.get(URLs[i])
+        except:
+            print(f"URL error: {webpage_names[i]}")
+            continue
+        try:
+            WebDriverWait(driver, 9).until(EC.presence_of_element_located((By.XPATH, X_paths[i])))
+        except:
+            print("Timeout")   
+            continue 
+        try:
+            element=driver.find_element(By.XPATH, X_paths[i])
+        except: # Element not found
+            print(f"(X path error) There is no such element on {webpage_names[i]}")
+            continue
+        prev_hashes.append(hashlib.sha224(element.screenshot_as_png).hexdigest())
 
-        while monitoring:
-            for i, url in enumerate(URLs):
-                driver.get(URLs[i+offset])
-                WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, X_paths[i+offset])))
-                driver.implicitly_wait(3)
-                
-                element=driver.find_element(By.XPATH, X_paths[i+offset])
-                new_hash=hashlib.sha224(element.screenshot_as_png).hexdigest()
-                if prev_hashes[i]!=new_hash:
-                    accepted_client.sendall(f"{webpage_names[i+offset]},{element.screenshot_as_base64}@".encode())
-                    #print("Detection! "+webpage_names[i])
-                    prev_hashes[i]=new_hash
-    except selenium.common.exceptions.TimeoutException as err:
-        print("Selenium timeout\n"+err)
-        offset=(offset+1)%len(webpage_names)
-        threading.Thread(target=start_monitoring, args=[accepted_client]).start()
-    except:
-        print('exception')
-        offset=(offset+1)%len(webpage_names)
-        threading.Thread(target=start_monitoring, args=[accepted_client]).start()
+    while monitoring:
+        for i, url in enumerate(URLs):
+            try:
+                driver.get(URLs[i])
+            except:
+                print(f"URL error: {webpage_names[i]}")
+                continue
+            try:
+                WebDriverWait(driver, 9).until(EC.presence_of_element_located((By.XPATH, X_paths[i])))
+            except:
+                print("Timeout")
+                continue   
+            try:
+                element=driver.find_element(By.XPATH, X_paths[i])
+            except: # Element not found
+                print(f"(X path error) There is no such element on {webpage_names[i]}")
+                continue
+            new_hash=hashlib.sha224(element.screenshot_as_png).hexdigest()
+            # New information found
+            if prev_hashes[i]!=new_hash:
+                screenshot=element.screenshot_as_base64
+                # get href
+                try: # Ignore even if ENTER does nothing
+                    element.click()
+                except:
+                    print("Click impossible")
+                href=driver.current_url
+                # Send the new formation
+                response=f"{webpage_names[i]},{screenshot},{href}$"
+                accepted_client.sendall(response.encode())
+
+                prev_hashes[i]=new_hash
+
+def stop_monitoring():
+    global monitoring
+    monitoring=False
+    driver.quit()
 
 def request_handler(accepted_client): # Handling requests from client
     while True:
@@ -163,49 +189,54 @@ def request_handler(accepted_client): # Handling requests from client
             if i==len(message)-1: # Last index
                 params.append(message[beginning_of_string:])
 
-        # Go to the target function
+        # Event loop
         if params[0]=="start_monitoring":
-            open_browser(params[1])
-            threading.Thread(target=start_monitoring, args=[accepted_client]).start()
             print("start_monitoring")
+            open_webbrowser(params[1])
+            threading.Thread(target=start_monitoring, args=[accepted_client]).start()
         
         if params[0]=="stop_monitoring":
-            global monitoring
-            monitoring=False
-            driver.quit()
             print("stop_monitoring")
+            stop_monitoring()
             
         if params[0]=="append_webpage":
-            append_webpage(params[1], params[2], params[3])
             print("append_webpage")
+            append_webpage(params[1], params[2], params[3])
         
         if params[0]=="parse_database":
-            parse_database(accepted_client)
             print("parse_database")
-        
-        if params[0]=="delete_from_database":          
+            parse_database(accepted_client)
+                    
+        if params[0]=="delete_from_database":    
+            print("delete_from_database")      
             delete_from_database(int(params[1]))
-            print("delete_from_database")
         
         if params[0]=="get_URL":
-            accepted_client.sendall(URLs[int(params[1])].encode())
             print("get_URL")
+            accepted_client.sendall(URLs[int(params[1])].encode())
         
         if params[0]=="exit":
             print('exit')
             exit()
 
-# Socket
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-for port in range(9000,9999):
-    try:
-        server_socket.bind(("127.0.0.1", port))
-        print(f"Bound to {port}")
-        break
-    except:
-        continue
-server_socket.listen() # Be ready to accept incoming connection requests
-import os
-os.startfile(os.path.abspath(os.path.dirname(__file__))+"\Frontend\Information_notifier_frontend.exe")
-accepted_client, address= server_socket.accept() # Accept a client socket
-threading.Thread(target=request_handler, args=[accepted_client]).start()
+def connect_to_frontend():
+    # Socket
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    port=9000
+    while port<65535:
+        try:
+            server_socket.bind(("127.0.0.1", port))
+            print(f"Bound to {port}")
+            break
+        except:
+            port+=1
+        
+    server_socket.listen() # Be ready to accept incoming connection requests
+    # Execute frontend
+    import os, subprocess
+    subprocess.Popen(os.path.abspath(os.path.dirname(__file__))+f"\Frontend\Information_notifier_frontend.exe {str(port)}")
+    accepted_client, address= server_socket.accept() # Accept a client socket
+
+    threading.Thread(target=request_handler, args=[accepted_client]).start()
+
+connect_to_frontend()
