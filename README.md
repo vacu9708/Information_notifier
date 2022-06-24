@@ -18,3 +18,6 @@ It is a program that lets you know each time new information is uploaded on webp
     Execute chrome -> Press Ctrl + Shift + C and click on the place whose change you want to know -> Right click on the selected part
     -> Click on Copy -> Click on Copy Full XPath
 4. Execute Information notifier.cmd
+
+### Each piece of information can be clicked as a hyperlink.
+### Information notifier.zip : Executable file
