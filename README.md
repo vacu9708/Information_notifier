@@ -19,3 +19,4 @@ It is a program that lets you know each time new information is uploaded on webp
 4. Execute Information notifier.cmd
 
 ### Each piece of information can be clicked as a hyperlink.
+### Information notifier.zip : Executable file
