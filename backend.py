@@ -10,9 +10,22 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+import chromedriver_autoinstaller, os
 
-driver = webdriver.Chrome()
+# Check if chrome driver is installed or not
+chrome_ver = chromedriver_autoinstaller.get_chrome_version().split('.')[0]
+driver_path = f'./{chrome_ver}/chromedriver.exe'
+if os.path.exists(driver_path):
+    print(f"chrom driver is insatlled (ver: {chrome_ver})")
+else:
+    print(f"install the chrome driver (ver: {chrome_ver})")
+    try:
+        driver_path=chromedriver_autoinstaller.install(True)
+    except:
+        print("Please install chrome driver")
+
+# Get driver and open url
+driver = webdriver.Chrome(driver_path)
 def open_webbrowser(hide):
     options=webdriver.ChromeOptions()
     #options=Options()
@@ -24,7 +37,7 @@ def open_webbrowser(hide):
     if hide=="hide_webbrowser":
         options.add_argument("headless")
     global driver
-    driver = webdriver.Chrome(".\chromedriver.exe", options=options)
+    driver = webdriver.Chrome(driver_path, options=options)
     driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
 
 # Default database
@@ -70,7 +83,7 @@ def parse_database(accepted_client):
         X_paths.append(parsedStrings[i+2])
     # Response to frontend
     for i in range(len(webpage_names)):
-        accepted_client.sendall(f'Webpage name: {webpage_names[i]}, X path: {X_paths[i]}$'.encode())
+        accepted_client.sendall(f'{webpage_names[i]}$'.encode())
         accepted_client.recv(1) # Wait for client's response
     accepted_client.sendall("$".encode()) # Notify it was the last row
 
@@ -217,7 +230,8 @@ def request_handler(accepted_client): # Handling requests from client
         
         if params[0]=="exit":
             print('exit')
-            exit()
+            import sys
+            sys.exit()
 
 def connect_to_frontend():
     # Socket
@@ -233,7 +247,7 @@ def connect_to_frontend():
         
     server_socket.listen() # Be ready to accept incoming connection requests
     # Execute frontend
-    import os, subprocess
+    import subprocess
     subprocess.Popen(os.path.abspath(os.path.dirname(__file__))+f"\Frontend\Information_notifier_frontend.exe {str(port)}")
     accepted_client, address= server_socket.accept() # Accept a client socket
 
