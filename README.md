@@ -1,6 +1,5 @@
 # Information_notifier
-
-![image](https://user-images.githubusercontent.com/67142421/175770144-8da646c4-c603-4a6b-b48d-2afed57942a3.png)
+![image](https://user-images.githubusercontent.com/67142421/175770987-019f31a3-62ba-473c-8cb9-0d88d6a422d8.png)
 
 ## What is this program?
 It is a program that lets you know each time new information is uploaded on webpages you set.
