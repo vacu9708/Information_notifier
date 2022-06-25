@@ -34,7 +34,7 @@
             // obtained_information_list
             // 
             this.obtained_information_list.AutoScroll = true;
-            this.obtained_information_list.AutoSize = true;
+            this.obtained_information_list.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.obtained_information_list.Location = new System.Drawing.Point(12, 12);
             this.obtained_information_list.Name = "obtained_information_list";
             this.obtained_information_list.Size = new System.Drawing.Size(1433, 753);
@@ -45,12 +45,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1457, 777);
             this.Controls.Add(this.obtained_information_list);
             this.Name = "Form2";
             this.Text = "Information displayer";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

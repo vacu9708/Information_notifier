@@ -33,7 +33,7 @@
             this.append_webpage = new System.Windows.Forms.Button();
             this.webpage_name_box = new System.Windows.Forms.TextBox();
             this.URL_box = new System.Windows.Forms.TextBox();
-            this.X_path_box = new System.Windows.Forms.TextBox();
+            this.XPath_box = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,17 +41,19 @@
             this.open_page = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.webpage_list = new System.Windows.Forms.ListBox();
-            this.hide_webbrowser = new System.Windows.Forms.CheckBox();
+            this.show_webbrowser = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.edit_webpage = new System.Windows.Forms.Button();
+            this.reset_text_boxes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // stop_monitoring
             // 
             this.stop_monitoring.BackColor = System.Drawing.Color.Gold;
-            this.stop_monitoring.Location = new System.Drawing.Point(65, 308);
+            this.stop_monitoring.Location = new System.Drawing.Point(9, 332);
             this.stop_monitoring.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.stop_monitoring.Name = "stop_monitoring";
-            this.stop_monitoring.Size = new System.Drawing.Size(152, 62);
+            this.stop_monitoring.Size = new System.Drawing.Size(152, 45);
             this.stop_monitoring.TabIndex = 2;
             this.stop_monitoring.Text = "Stop monitoring";
             this.stop_monitoring.UseVisualStyleBackColor = false;
@@ -60,10 +62,10 @@
             // start_monitoring
             // 
             this.start_monitoring.BackColor = System.Drawing.Color.Gold;
-            this.start_monitoring.Location = new System.Drawing.Point(65, 238);
+            this.start_monitoring.Location = new System.Drawing.Point(9, 279);
             this.start_monitoring.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.start_monitoring.Name = "start_monitoring";
-            this.start_monitoring.Size = new System.Drawing.Size(152, 62);
+            this.start_monitoring.Size = new System.Drawing.Size(152, 45);
             this.start_monitoring.TabIndex = 3;
             this.start_monitoring.Text = "Start monitoring";
             this.start_monitoring.UseVisualStyleBackColor = false;
@@ -72,12 +74,12 @@
             // append_webpage
             // 
             this.append_webpage.BackColor = System.Drawing.Color.Gold;
-            this.append_webpage.Location = new System.Drawing.Point(323, 448);
+            this.append_webpage.Location = new System.Drawing.Point(9, 194);
             this.append_webpage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.append_webpage.Name = "append_webpage";
-            this.append_webpage.Size = new System.Drawing.Size(152, 63);
+            this.append_webpage.Size = new System.Drawing.Size(65, 45);
             this.append_webpage.TabIndex = 4;
-            this.append_webpage.Text = "Append a webpage";
+            this.append_webpage.Text = "Add";
             this.append_webpage.UseVisualStyleBackColor = false;
             this.append_webpage.Click += new System.EventHandler(this.append_webpage_Click);
             // 
@@ -97,13 +99,13 @@
             this.URL_box.Size = new System.Drawing.Size(308, 27);
             this.URL_box.TabIndex = 6;
             // 
-            // X_path_box
+            // XPath_box
             // 
-            this.X_path_box.Location = new System.Drawing.Point(9, 159);
-            this.X_path_box.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.X_path_box.Name = "X_path_box";
-            this.X_path_box.Size = new System.Drawing.Size(308, 27);
-            this.X_path_box.TabIndex = 7;
+            this.XPath_box.Location = new System.Drawing.Point(9, 159);
+            this.XPath_box.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.XPath_box.Name = "XPath_box";
+            this.XPath_box.Size = new System.Drawing.Size(308, 27);
+            this.XPath_box.TabIndex = 7;
             // 
             // label1
             // 
@@ -138,7 +140,7 @@
             this.delete_webpage.Location = new System.Drawing.Point(481, 448);
             this.delete_webpage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.delete_webpage.Name = "delete_webpage";
-            this.delete_webpage.Size = new System.Drawing.Size(152, 63);
+            this.delete_webpage.Size = new System.Drawing.Size(152, 45);
             this.delete_webpage.TabIndex = 12;
             this.delete_webpage.Text = "Delete a webpage";
             this.delete_webpage.UseVisualStyleBackColor = false;
@@ -150,7 +152,7 @@
             this.open_page.Location = new System.Drawing.Point(639, 448);
             this.open_page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.open_page.Name = "open_page";
-            this.open_page.Size = new System.Drawing.Size(152, 63);
+            this.open_page.Size = new System.Drawing.Size(152, 45);
             this.open_page.TabIndex = 13;
             this.open_page.Text = "Open a webpage";
             this.open_page.UseVisualStyleBackColor = false;
@@ -159,7 +161,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(9, 194);
+            this.checkBox1.Location = new System.Drawing.Point(9, 247);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(123, 24);
@@ -177,17 +179,18 @@
             this.webpage_list.Name = "webpage_list";
             this.webpage_list.Size = new System.Drawing.Size(464, 404);
             this.webpage_list.TabIndex = 15;
+            this.webpage_list.SelectedIndexChanged += new System.EventHandler(this.webpage_list_SelectedIndexChanged);
             // 
-            // hide_webbrowser
+            // show_webbrowser
             // 
-            this.hide_webbrowser.AutoSize = true;
-            this.hide_webbrowser.Location = new System.Drawing.Point(138, 194);
-            this.hide_webbrowser.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.hide_webbrowser.Name = "hide_webbrowser";
-            this.hide_webbrowser.Size = new System.Drawing.Size(148, 24);
-            this.hide_webbrowser.TabIndex = 16;
-            this.hide_webbrowser.Text = "Hide webbrowser";
-            this.hide_webbrowser.UseVisualStyleBackColor = true;
+            this.show_webbrowser.AutoSize = true;
+            this.show_webbrowser.Location = new System.Drawing.Point(138, 247);
+            this.show_webbrowser.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.show_webbrowser.Name = "show_webbrowser";
+            this.show_webbrowser.Size = new System.Drawing.Size(106, 24);
+            this.show_webbrowser.TabIndex = 16;
+            this.show_webbrowser.Text = "TEST mode";
+            this.show_webbrowser.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -198,13 +201,39 @@
             this.label4.TabIndex = 19;
             this.label4.Text = "Webpage list";
             // 
+            // edit_webpage
+            // 
+            this.edit_webpage.BackColor = System.Drawing.Color.Gold;
+            this.edit_webpage.Location = new System.Drawing.Point(323, 448);
+            this.edit_webpage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_webpage.Name = "edit_webpage";
+            this.edit_webpage.Size = new System.Drawing.Size(152, 45);
+            this.edit_webpage.TabIndex = 21;
+            this.edit_webpage.Text = "Edit a webpage";
+            this.edit_webpage.UseVisualStyleBackColor = false;
+            this.edit_webpage.Click += new System.EventHandler(this.edit_webpage_Click);
+            // 
+            // reset_text_boxes
+            // 
+            this.reset_text_boxes.BackColor = System.Drawing.Color.Gold;
+            this.reset_text_boxes.Location = new System.Drawing.Point(80, 194);
+            this.reset_text_boxes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.reset_text_boxes.Name = "reset_text_boxes";
+            this.reset_text_boxes.Size = new System.Drawing.Size(137, 45);
+            this.reset_text_boxes.TabIndex = 20;
+            this.reset_text_boxes.Text = "Reset text boxes";
+            this.reset_text_boxes.UseVisualStyleBackColor = false;
+            this.reset_text_boxes.Click += new System.EventHandler(this.reset_text_boxes_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(799, 527);
+            this.ClientSize = new System.Drawing.Size(799, 500);
+            this.Controls.Add(this.edit_webpage);
+            this.Controls.Add(this.reset_text_boxes);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.hide_webbrowser);
+            this.Controls.Add(this.show_webbrowser);
             this.Controls.Add(this.webpage_list);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.open_page);
@@ -212,7 +241,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.X_path_box);
+            this.Controls.Add(this.XPath_box);
             this.Controls.Add(this.URL_box);
             this.Controls.Add(this.webpage_name_box);
             this.Controls.Add(this.append_webpage);
@@ -234,7 +263,7 @@
         private System.Windows.Forms.Button append_webpage;
         private System.Windows.Forms.TextBox webpage_name_box;
         private System.Windows.Forms.TextBox URL_box;
-        private System.Windows.Forms.TextBox X_path_box;
+        private System.Windows.Forms.TextBox XPath_box;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -242,8 +271,10 @@
         private System.Windows.Forms.Button open_page;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ListBox webpage_list;
-        private CheckBox hide_webbrowser;
+        private CheckBox show_webbrowser;
         private Label label4;
+        private Button edit_webpage;
+        private Button reset_text_boxes;
     }
 }
 

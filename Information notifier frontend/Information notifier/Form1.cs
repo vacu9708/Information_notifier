@@ -20,16 +20,24 @@ namespace Information_notifier
         Socket client;
         Form2 form2;
         int obtained_information_location;
-        bool monitoring;
-        bool alarm_turned_on;
+        bool monitoring, alarm_turned_on;
+        List<string> webpage_names;
+        List<string> URLs;
+        List<string> XPaths;
         public Form1(int port)
         {
             InitializeComponent();
+
+            this.monitoring = false;
+            webpage_names = new List<string>();
+            URLs = new List<string>();
+            XPaths = new List<string>();
+
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), port));
+
             this.form2 = new Form2();
             form2.Show();
-            this.monitoring = false;
         }
         private List<string> response_parser(string message)
         {
@@ -60,14 +68,54 @@ namespace Information_notifier
                 client.Receive(message, message.Length, SocketFlags.None);
                 if (Encoding.UTF8.GetString(message)[0] == '$') // End of parsing database
                     return;
-                for (int i = 0; i < message.Length; i++) // Find the end of a line
-                    if (Encoding.UTF8.GetString(message)[i] == '$')
-                    {
-                        webpage_list.Items.Add(Encoding.UTF8.GetString(message).Substring(0, i));
-                        break;
-                    }
+
+                List<string> parsed_params = response_parser(Encoding.UTF8.GetString(message));
+                webpage_names.Add(parsed_params[0]);
+                URLs.Add(parsed_params[1]);
+                XPaths.Add(parsed_params[2]);
+
+                webpage_list.Items.Add(parsed_params[0]);
                 client.Send(new byte[1]); // Notify finishing a row
             }
+        }
+        private void append_webpage_Click(object sender, EventArgs e)
+        {
+            if (monitoring)
+            {
+                MessageBox.Show("Please turn off monitoring first");
+                return;
+            }
+            client.Send(Encoding.UTF8.GetBytes("append_webpage," + webpage_name_box.Text + "," + URL_box.Text + "," + XPath_box.Text));
+
+            // Add to lists
+            webpage_names.Add(webpage_name_box.Text);
+            URLs.Add(URL_box.Text);
+            XPaths.Add(XPath_box.Text);
+            // Add to webpage list
+            webpage_list.Items.Add(webpage_name_box.Text);
+            // Reset text boxes
+            webpage_name_box.Clear();
+            URL_box.Clear();
+            XPath_box.Clear();
+        }
+        private void delete_webpage_Click(object sender, EventArgs e)
+        {
+            if (webpage_list.SelectedIndex < 0)
+            {
+                MessageBox.Show("Nothing selected");
+                return;
+            }
+
+
+            if (monitoring)
+            {
+                MessageBox.Show("Please turn off monitoring first");
+                return;
+            }
+            client.Send(Encoding.UTF8.GetBytes("delete_from_database," + webpage_list.SelectedIndex.ToString()));
+            if (webpage_list.SelectedIndex == -1)
+                return;
+            webpage_list.Items.RemoveAt(webpage_list.SelectedIndex);
         }
         private void start_monitoring_Click(object sender, EventArgs e)
         {
@@ -82,7 +130,7 @@ namespace Information_notifier
             start_monitoring.BackColor = Color.Red;
             void thread()
             {
-                string hide = hide_webbrowser.Checked ? "hide_webbrowser" : "0";
+                string hide = show_webbrowser.Checked ? "show_webbrowser" : "0";
                 client.Send(Encoding.UTF8.GetBytes("start_monitoring," + hide));
                 while (monitoring)
                 {
@@ -96,20 +144,25 @@ namespace Information_notifier
                     while (!form2.obtained_information_list.InvokeRequired) ;// Prevent cross-thread error
                     form2.obtained_information_list.Invoke(new MethodInvoker(delegate
                     {
+                        // Scroll to the top
+                        form2.obtained_information_list.VerticalScroll.Value = form2.obtained_information_list.VerticalScroll.Minimum;
+                        form2.obtained_information_list.PerformLayout();
+
                         // Insert received image into list            
                         PictureBox picture_box = new PictureBox();
                         picture_box.Cursor = Cursors.Hand;
                         // Add a hyperlink
                         picture_box.Click += new EventHandler( (sender, e) => 
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo{FileName=parsed_params[2], UseShellExecute=true}) );
-                            
+                        //-----end Add a hyperlink
+
                         Image obtained_information = System.Drawing.Image.FromStream(new System.IO.MemoryStream(image_bytes, 0, image_bytes.Length));
                         picture_box.Size = new System.Drawing.Size(obtained_information.Width, obtained_information.Height);
                         picture_box.Image = obtained_information;
                         picture_box.Location = new System.Drawing.Point(0, obtained_information_location);
                         form2.obtained_information_list.Controls.Add(picture_box);
                         obtained_information_location += picture_box.Height;
-                        //-----End insert received image into list   
+                        //-----end insert received image into list   
 
                         // Insert obtained information
                         Label label = new Label();
@@ -120,8 +173,11 @@ namespace Information_notifier
                         label.Location = new System.Drawing.Point(0, obtained_information_location);
                         form2.obtained_information_list.Controls.Add(label);
                         obtained_information_location += label.Height;
-                    }));
 
+                        // Scroll to the bottom
+                        form2.obtained_information_list.VerticalScroll.Value = form2.obtained_information_list.VerticalScroll.Maximum;
+                        form2.obtained_information_list.PerformLayout();
+                    }));
                     if (alarm_turned_on)
                     {
                         Thread beep = new Thread(new ThreadStart(() => Console.Beep(1000, 1500)));
@@ -139,41 +195,14 @@ namespace Information_notifier
             start_monitoring.BackColor = Color.Gold;
             start_monitoring.Text = "Start Monitoring";
         }
-        private void append_webpage_Click(object sender, EventArgs e)
-        {
-            if (monitoring)
-            {
-                MessageBox.Show("Please turn off monitoring first");
-                return;
-            }
-            client.Send(Encoding.UTF8.GetBytes(
-                "append_webpage," + webpage_name_box.Text + "," + URL_box.Text + "," + X_path_box.Text));
-
-            webpage_list.Items.Add(webpage_name_box.Text);
-            webpage_name_box.Clear();
-            URL_box.Clear();
-            X_path_box.Clear();
-        }
-        private void delete_webpage_Click(object sender, EventArgs e)
-        {
-            if (monitoring)
-            {
-                MessageBox.Show("Please turn off monitoring first");
-                return;
-            }
-            client.Send(Encoding.UTF8.GetBytes("delete_from_database," + webpage_list.SelectedIndex.ToString()));
-            if (webpage_list.SelectedIndex == -1)
-                return;
-            webpage_list.Items.RemoveAt(webpage_list.SelectedIndex);
-        }
-
         private void open_page_Click(object sender, EventArgs e)
         {
-            client.Send(Encoding.UTF8.GetBytes("get_URL," + webpage_list.SelectedIndex.ToString()));
-            byte[] message = new byte[99999];
-            client.Receive(message, message.Length, SocketFlags.None);
-            string URL = Encoding.UTF8.GetString(message);
-            System.Diagnostics.Process.Start(URL);
+            if(webpage_list.SelectedIndex < 0)
+            {
+                MessageBox.Show("Nothing selected");
+                return;
+            }
+            System.Diagnostics.Process.Start(URLs[webpage_list.SelectedIndex]);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -185,6 +214,51 @@ namespace Information_notifier
 
             client.Send(Encoding.UTF8.GetBytes("exit"));
             client.Close();
+        }
+        private void reset_text_boxes_Click(object sender, EventArgs e)
+        {
+            webpage_name_box.Clear();
+            URL_box.Clear();
+            XPath_box.Clear();
+            webpage_list.ClearSelected();
+        }
+        private void webpage_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (webpage_list.SelectedIndex < 0)
+                return;
+
+            webpage_name_box.Text = webpage_names[webpage_list.SelectedIndex];
+            URL_box.Text = URLs[webpage_list.SelectedIndex];
+            XPath_box.Text = XPaths[webpage_list.SelectedIndex];
+            
+        }
+        private void edit_webpage_Click(object sender, EventArgs e)
+        {
+            if (webpage_list.SelectedIndex < 0)
+            {
+                MessageBox.Show("Nothing selected");
+                return;
+            }
+
+            client.Send(Encoding.UTF8.GetBytes("edit_webpage,"+webpage_list.SelectedIndex+","+webpage_name_box.Text+","+ URL_box.Text+","+XPath_box.Text));
+
+            // Edit lists
+            int selected_index = webpage_list.SelectedIndex;
+            webpage_names.RemoveAt(selected_index);
+            URLs.RemoveAt(selected_index);
+            XPaths.RemoveAt(selected_index);
+
+            webpage_names.Add(webpage_name_box.Text);
+            URLs.Add(URL_box.Text);
+            XPaths.Add(XPath_box.Text);
+            //-----end Edit lists
+            // Add the new webpage
+            webpage_list.Items.RemoveAt(selected_index);
+            webpage_list.Items.Add(webpage_name_box.Text);
+            // Reset text boxes
+            webpage_name_box.Clear();
+            URL_box.Clear();
+            XPath_box.Clear();
         }
     }
 }
