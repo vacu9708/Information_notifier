@@ -19,7 +19,7 @@ namespace Information_notifier
     {
         Socket client;
         Form2 displayer_form;
-        int obtained_information_location, new_information_counter, information_notifier_num;
+        int obtained_information_location, new_information_counter, information_notifier_counter;
         bool monitoring, alarm_turned_on;
         List<string> webpage_names;
         List<string> URLs;
@@ -39,7 +39,7 @@ namespace Information_notifier
             this.displayer_form = new Form2();
             displayer_form.Show();
 
-            information_notifier_num = 1;
+            information_notifier_counter = 1;
         }
         private List<string> response_parser(string message)
         {
@@ -110,12 +110,13 @@ namespace Information_notifier
                 MessageBox.Show("Nothing selected");
                 return;
             }
+
+
             if (monitoring)
             {
                 MessageBox.Show("Please turn off monitoring first");
                 return;
             }
-
             client.Send(Encoding.UTF8.GetBytes("delete_from_database," + webpage_list.SelectedIndex.ToString()));
             if (webpage_list.SelectedIndex == -1)
                 return;
@@ -135,10 +136,7 @@ namespace Information_notifier
             void thread()
             {
                 string hide = show_webbrowser.Checked ? "show_webbrowser" : "0";
-                while (!displayer_form.obtained_information_list.InvokeRequired) ;// Prevent cross-thread error
-                displayer_form.obtained_information_list.Invoke(new MethodInvoker(delegate{
-                    client.Send(Encoding.UTF8.GetBytes("start_monitoring," + hide + "," + n_of_browsers_bar.Value));
-                }));
+                client.Send(Encoding.UTF8.GetBytes("start_monitoring," + hide));
                 while (monitoring)
                 {
                     // Receive image, webpage index, and URL from server socket
@@ -149,13 +147,14 @@ namespace Information_notifier
                     image_bytes = Convert.FromBase64String(parsed_params[1]);
 
                     while (!displayer_form.obtained_information_list.InvokeRequired) ;// Prevent cross-thread error
-                    displayer_form.obtained_information_list.Invoke(new MethodInvoker(delegate{
-                        // In case the displayer is crammed with information
+                    displayer_form.obtained_information_list.Invoke(new MethodInvoker(delegate
+                    {
+                        // Full displayer
                         if (displayer_form.obtained_information_list.VerticalScroll.Maximum > 30000)
                         {
                             displayer_form = new Form2();
-                            information_notifier_num++;
-                            displayer_form.Text = "Information notifier " + information_notifier_num;
+                            information_notifier_counter++;
+                            displayer_form.Text = "Information notifier " + information_notifier_counter;
                             displayer_form.Show();
                             obtained_information_location = 0;
                         }
@@ -195,6 +194,7 @@ namespace Information_notifier
                         displayer_form.obtained_information_list.PerformLayout();
                         new_information_counter++;
                         debugger.Text = "New information : " + new_information_counter.ToString();
+  
                     }));
                     if (alarm_turned_on)
                     {
@@ -208,17 +208,10 @@ namespace Information_notifier
         }
         private void stop_monitoring_Click(object sender, EventArgs e)
         {
-            if (!monitoring)
-            {
-                MessageBox.Show("Not monitoring");
-                return;
-            }
-
             client.Send(Encoding.UTF8.GetBytes("stop_monitoring"));
-
+            monitoring = false;
             start_monitoring.BackColor = Color.Gold;
             start_monitoring.Text = "Start Monitoring";
-            monitoring = false;
         }
         private void open_page_Click(object sender, EventArgs e)
         {
@@ -247,20 +240,6 @@ namespace Information_notifier
             XPath_box.Clear();
             webpage_list.ClearSelected();
         }
-        private void n_of_browsers_bar_Scroll(object sender, EventArgs e)
-        {
-            if (monitoring)
-            {
-                MessageBox.Show("Please turn off monitoring first");
-                return;
-            }
-            n_of_browsers.Text = "Number of browsers : " + n_of_browsers_bar.Value;
-        }
-
-        private void debugger_Click(object sender, EventArgs e)
-        {
-
-        }
         private void webpage_list_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (webpage_list.SelectedIndex < 0)
@@ -269,16 +248,16 @@ namespace Information_notifier
             webpage_name_box.Text = webpage_names[webpage_list.SelectedIndex];
             URL_box.Text = URLs[webpage_list.SelectedIndex];
             XPath_box.Text = XPaths[webpage_list.SelectedIndex];
+            
+        }
+
+        private void debugger_Click(object sender, EventArgs e)
+        {
 
         }
 
         private void edit_webpage_Click(object sender, EventArgs e)
         {
-            if (monitoring)
-            {
-                MessageBox.Show("Please turn off monitoring first");
-                return;
-            }
             if (webpage_list.SelectedIndex < 0)
             {
                 MessageBox.Show("Nothing selected");
