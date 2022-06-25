@@ -42,10 +42,13 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.webpage_list = new System.Windows.Forms.ListBox();
             this.show_webbrowser = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.edit_webpage = new System.Windows.Forms.Button();
             this.reset_text_boxes = new System.Windows.Forms.Button();
             this.debugger = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.n_of_browsers = new System.Windows.Forms.Label();
+            this.n_of_browsers_bar = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.n_of_browsers_bar)).BeginInit();
             this.SuspendLayout();
             // 
             // stop_monitoring
@@ -193,15 +196,6 @@
             this.show_webbrowser.Text = "TEST mode";
             this.show_webbrowser.UseVisualStyleBackColor = true;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(323, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 20);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Webpage list";
-            // 
             // edit_webpage
             // 
             this.edit_webpage.BackColor = System.Drawing.Color.Gold;
@@ -229,18 +223,49 @@
             // debugger
             // 
             this.debugger.AutoSize = true;
-            this.debugger.Location = new System.Drawing.Point(12, 410);
+            this.debugger.Location = new System.Drawing.Point(493, 9);
             this.debugger.Name = "debugger";
             this.debugger.Size = new System.Drawing.Size(140, 20);
             this.debugger.TabIndex = 22;
             this.debugger.Text = "New information : 0";
             this.debugger.Click += new System.EventHandler(this.debugger_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(323, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(96, 20);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Webpage list";
+            // 
+            // n_of_browsers
+            // 
+            this.n_of_browsers.AutoSize = true;
+            this.n_of_browsers.Location = new System.Drawing.Point(148, 394);
+            this.n_of_browsers.Name = "n_of_browsers";
+            this.n_of_browsers.Size = new System.Drawing.Size(163, 20);
+            this.n_of_browsers.TabIndex = 24;
+            this.n_of_browsers.Text = "Number of browsers : 1";
+            // 
+            // n_of_browsers_bar
+            // 
+            this.n_of_browsers_bar.LargeChange = 2;
+            this.n_of_browsers_bar.Location = new System.Drawing.Point(12, 384);
+            this.n_of_browsers_bar.Minimum = 1;
+            this.n_of_browsers_bar.Name = "n_of_browsers_bar";
+            this.n_of_browsers_bar.Size = new System.Drawing.Size(130, 56);
+            this.n_of_browsers_bar.TabIndex = 25;
+            this.n_of_browsers_bar.Value = 1;
+            this.n_of_browsers_bar.Scroll += new System.EventHandler(this.n_of_browsers_bar_Scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(799, 500);
+            this.Controls.Add(this.n_of_browsers_bar);
+            this.Controls.Add(this.n_of_browsers);
             this.Controls.Add(this.debugger);
             this.Controls.Add(this.edit_webpage);
             this.Controls.Add(this.reset_text_boxes);
@@ -264,6 +289,7 @@
             this.Text = "Information notifier";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.n_of_browsers_bar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,10 +310,12 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ListBox webpage_list;
         private CheckBox show_webbrowser;
-        private Label label4;
         private Button edit_webpage;
         private Button reset_text_boxes;
         private Label debugger;
+        private Label label4;
+        private Label n_of_browsers;
+        private TrackBar n_of_browsers_bar;
     }
 }
 

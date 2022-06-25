@@ -12,8 +12,8 @@ namespace Information_notifier
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            //Application.Run(new Form1(Int32.Parse(args[0]))); // bound port in the argument
-            Application.Run(new Form1(Int32.Parse(args[0]))); // debug
+            Application.Run(new Form1(Int32.Parse(args[0]))); // bound port in the argument
+            //Application.Run(new Form1(Int32.Parse("9000"))); // debug
         }
     }
 }
