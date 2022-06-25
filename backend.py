@@ -24,13 +24,34 @@ else:
     except:
         print("Please install chrome driver")
 
+# Socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+port=9000
+while port<65535:
+    try:
+        server_socket.bind(("127.0.0.1", port))
+        print(f"Bound to {port}")
+        break
+    except:
+        port+=1
+    
+server_socket.listen() # Be ready to accept incoming connection requests
+
+# Execute frontend
+import subprocess, sys
+if getattr(sys, 'frozen', False):
+    application_path = os.path.dirname(sys.executable)
+else:
+    application_path = os.path.dirname(__file__)
+subprocess.Popen(application_path+f"\Frontend\Information_notifier_frontend.exe {str(port)}")
+accepted_client, address= server_socket.accept() # Accept the client socket
+
 # Get driver and open url
 browser_for_login = webdriver.Chrome(driver_path)
 try:
     browser_for_login.get("http://Here_deal_with_webpages_that_require_something_like_login.")
 except:
     pass
-driver = browser_for_login
 def open_webbrowser(is_show_webbrowser):
     options=webdriver.ChromeOptions()
     #options=Options()
@@ -41,9 +62,9 @@ def open_webbrowser(is_show_webbrowser):
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     if not(is_show_webbrowser=="show_webbrowser"):
         options.add_argument("headless")
-    global driver
     driver = webdriver.Chrome(driver_path, options=options)
     driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
+    return driver
 
 # Default database
 try:
@@ -128,12 +149,16 @@ def append_webpage(webpage_name, URL, XPath):
     database.write(f'(({webpage_name})) (({URL})) (({XPath}))\n')
     database.close()
 
+drivers=[]
 monitoring=False
-def start_monitoring(accepted_client):
+def start_monitoring(accepted_client, driver, beginning_index, ending_index):
     global monitoring
     monitoring=True
     prev_hashes=[]
-    for i, url in enumerate(URLs): # Create initial hashes
+    i=0
+    while i<ending_index:
+        if not monitoring:
+            return
         try:
             driver.get(URLs[i])
         except:
@@ -152,9 +177,12 @@ def start_monitoring(accepted_client):
             print(f"(X path error) There is no such element on {webpage_names[i]}")
             continue
         prev_hashes.append(hashlib.sha224(element.screenshot_as_png).hexdigest())
+        i+=1
 
-    while monitoring:
-        for i, url in enumerate(URLs):
+    while True:
+        for i in range(beginning_index, ending_index): # Webpage index
+            if not monitoring:
+                return
             try:
                 driver.get(URLs[i])
             except:
@@ -173,7 +201,11 @@ def start_monitoring(accepted_client):
                 continue
             new_hash=hashlib.sha224(element.screenshot_as_png).hexdigest()
             # New information found
-            if prev_hashes[i]!=new_hash:
+            try: 
+                prev_hashes[i-beginning_index]
+            except:
+                print("error",i-beginning_index)
+            if prev_hashes[i-beginning_index]!=new_hash:
                 #element.screenshot(f'./test/{str(i)}.png')
                 screenshot=element.screenshot_as_base64
                 # Get href
@@ -191,18 +223,51 @@ def start_monitoring(accepted_client):
                 response=f"{webpage_names[i]},{screenshot},{href}$"
                 accepted_client.sendall(response.encode())
 
-                prev_hashes[i]=new_hash
+                prev_hashes[i-beginning_index]=new_hash
+
+def start_monitoring_thread_maker(accepted_client, is_show_webbrowser, n_of_browsers):
+    beginning_index=0
+    fraction=len(webpage_names)/n_of_browsers
+    webpage_length_per_browser=int(fraction)+1 if fraction > int(fraction) else int(fraction) # Ceiling
+    ending_index=beginning_index+webpage_length_per_browser
+    for i in range(n_of_browsers):
+        drivers.append(open_webbrowser(is_show_webbrowser))
+        threading.Thread(target=start_monitoring, 
+        args=[accepted_client, drivers[i], beginning_index, ending_index], daemon=True).start()
+        beginning_index=int( (beginning_index+webpage_length_per_browser)%len(webpage_names) )
+        ending_index=beginning_index+webpage_length_per_browser
+
+import atexit
+def exit_drivers():
+    for i, driver in enumerate(drivers):
+        try:
+            print('Browser quit',i)
+            driver.quit()
+        except:
+            continue
+def atexit_func():
+    global monitoring
+    monitoring=False
+    exit_drivers()
+    accepted_client.close()
+    server_socket.close()
+atexit.register(atexit_func)
 
 def stop_monitoring():
     global monitoring
     if not monitoring:
         return
     monitoring=False
-    driver.quit()
+    exit_drivers()
+    drivers.clear()
 
+is_exit=False
 def request_handler(accepted_client): # Handling requests from client
+    global is_exit
     import sys
     while True:
+        if is_exit:
+            return
         try:
             message = accepted_client.recv(999).decode() # Wait for client's request
         except: # Client exited
@@ -221,9 +286,8 @@ def request_handler(accepted_client): # Handling requests from client
         # Event loop
         if params[0]=="start_monitoring":
             print("start_monitoring")
-            open_webbrowser(params[1])
-            threading.Thread(target=start_monitoring, args=[accepted_client]).start()
-        
+            start_monitoring_thread_maker(accepted_client, params[1], int(params[2]))
+             
         if params[0]=="stop_monitoring":
             print("stop_monitoring")
             stop_monitoring()
@@ -246,31 +310,16 @@ def request_handler(accepted_client): # Handling requests from client
 
         if params[0]=="exit":
             print('exit')
-            sys.exit()
+            is_exit=True
+            try:
+                sys.exit()
+            except:
+                atexit_func()
+            return
 
         if params[0]=="edit_webpage":
             print("edit_webpage")
             delete_from_database(int(params[1]))
             append_webpage(params[2],params[3],params[4])
 
-def connect_to_frontend():
-    # Socket
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    port=9000
-    while port<65535:
-        try:
-            server_socket.bind(("127.0.0.1", port))
-            print(f"Bound to {port}")
-            break
-        except:
-            port+=1
-        
-    server_socket.listen() # Be ready to accept incoming connection requests
-    # Execute frontendy
-    import subprocess
-    #subprocess.Popen(os.path.abspath(os.path.dirname(__file__))+f"\Frontend\Information_notifier_frontend.exe {str(port)}")
-    accepted_client, address= server_socket.accept() # Accept the client socket
-
-    threading.Thread(target=request_handler, args=[accepted_client]).start()
-
-connect_to_frontend()
+threading.Thread(target=request_handler, args=[accepted_client]).start()
