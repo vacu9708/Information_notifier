@@ -27,7 +27,7 @@ else:
 # Get driver and open url
 browser_for_login = webdriver.Chrome(driver_path)
 try:
-    browser_for_login.get("http://Log_in_on_this_web_browser_to_keep_track_on_webpages_that_require_login.")
+    browser_for_login.get("http://Here,deal_with_webpages_that_require_something_like_login.")
 except:
     pass
 driver = browser_for_login
