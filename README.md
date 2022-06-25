@@ -18,6 +18,6 @@ It is a program that lets you know each time new information is uploaded on webp
   -> Click on Copy -> Click on Copy Full XPath
 5. Execute Information notifier.cmd
 
-###The bigger "Number of browsers is" the faster notifying becomes, but it takes more computing resource.
+### The bigger "Number of browsers is" the faster notifying becomes, but it takes more computing resource.
 ### Each piece of information can be clicked as a hyperlink.
 ### Executable file is in Information notifier.zip
