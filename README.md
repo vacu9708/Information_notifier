@@ -1,5 +1,5 @@
 # Information_notifier
-![image](https://user-images.githubusercontent.com/67142421/175770987-019f31a3-62ba-473c-8cb9-0d88d6a422d8.png)
+![image](https://user-images.githubusercontent.com/67142421/175791197-45eee1c5-5e88-49e6-9767-fdfd4647b531.png)
 
 ## What is this program?
 It is a program that lets you know each time new information is uploaded on webpages you set.
@@ -10,7 +10,7 @@ It is a program that lets you know each time new information is uploaded on webp
 * Database : notepad.txt
 
 ## How to use
-1. Log in to pages that need login on the web browser that was opened first.
+1. Deal with webpages that require something like login on the web browser that is opened first.
 2. Put any name you want in Webpage name box.
 3. Put the webpage address you want to keep track on.
 4. What to put in Full XPath box:
