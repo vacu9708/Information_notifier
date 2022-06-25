@@ -1,4 +1,4 @@
-# Information_notifier
+# Information notifier
 ![image](https://user-images.githubusercontent.com/67142421/175791197-45eee1c5-5e88-49e6-9767-fdfd4647b531.png)
 
 ## What is this program?
