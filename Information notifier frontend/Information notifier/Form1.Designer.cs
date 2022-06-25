@@ -45,6 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.edit_webpage = new System.Windows.Forms.Button();
             this.reset_text_boxes = new System.Windows.Forms.Button();
+            this.debugger = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // stop_monitoring
@@ -225,11 +226,22 @@
             this.reset_text_boxes.UseVisualStyleBackColor = false;
             this.reset_text_boxes.Click += new System.EventHandler(this.reset_text_boxes_Click);
             // 
+            // debugger
+            // 
+            this.debugger.AutoSize = true;
+            this.debugger.Location = new System.Drawing.Point(12, 410);
+            this.debugger.Name = "debugger";
+            this.debugger.Size = new System.Drawing.Size(140, 20);
+            this.debugger.TabIndex = 22;
+            this.debugger.Text = "New information : 0";
+            this.debugger.Click += new System.EventHandler(this.debugger_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(799, 500);
+            this.Controls.Add(this.debugger);
             this.Controls.Add(this.edit_webpage);
             this.Controls.Add(this.reset_text_boxes);
             this.Controls.Add(this.label4);
@@ -275,6 +287,7 @@
         private Label label4;
         private Button edit_webpage;
         private Button reset_text_boxes;
+        private Label debugger;
     }
 }
 

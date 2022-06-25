@@ -18,8 +18,8 @@ namespace Information_notifier
     public partial class Form1 : Form
     {
         Socket client;
-        Form2 form2;
-        int obtained_information_location;
+        Form2 displayer_form;
+        int obtained_information_location, new_information_counter, information_notifier_counter;
         bool monitoring, alarm_turned_on;
         List<string> webpage_names;
         List<string> URLs;
@@ -36,8 +36,10 @@ namespace Information_notifier
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), port));
 
-            this.form2 = new Form2();
-            form2.Show();
+            this.displayer_form = new Form2();
+            displayer_form.Show();
+
+            information_notifier_counter = 1;
         }
         private List<string> response_parser(string message)
         {
@@ -85,6 +87,9 @@ namespace Information_notifier
                 MessageBox.Show("Please turn off monitoring first");
                 return;
             }
+            if (webpage_name_box.Text == "" || URL_box.Text == "" || XPath_box.Text == "")
+                return;
+
             client.Send(Encoding.UTF8.GetBytes("append_webpage," + webpage_name_box.Text + "," + URL_box.Text + "," + XPath_box.Text));
 
             // Add to lists
@@ -141,26 +146,35 @@ namespace Information_notifier
                     byte[] image_bytes;
                     image_bytes = Convert.FromBase64String(parsed_params[1]);
 
-                    while (!form2.obtained_information_list.InvokeRequired) ;// Prevent cross-thread error
-                    form2.obtained_information_list.Invoke(new MethodInvoker(delegate
+                    while (!displayer_form.obtained_information_list.InvokeRequired) ;// Prevent cross-thread error
+                    displayer_form.obtained_information_list.Invoke(new MethodInvoker(delegate
                     {
+                        if (displayer_form.obtained_information_list.VerticalScroll.Maximum > 30000)
+                        {
+                            displayer_form = new Form2();
+                            information_notifier_counter++;
+                            displayer_form.Name = "Information notifier " + information_notifier_counter;
+                            displayer_form.Show();
+                            obtained_information_location = 0;
+                        }
+
                         // Scroll to the top
-                        form2.obtained_information_list.VerticalScroll.Value = form2.obtained_information_list.VerticalScroll.Minimum;
-                        form2.obtained_information_list.PerformLayout();
+                        displayer_form.obtained_information_list.VerticalScroll.Value = displayer_form.obtained_information_list.VerticalScroll.Minimum;
+                        displayer_form.obtained_information_list.PerformLayout();
 
                         // Insert received image into list            
                         PictureBox picture_box = new PictureBox();
                         picture_box.Cursor = Cursors.Hand;
                         // Add a hyperlink
-                        picture_box.Click += new EventHandler( (sender, e) => 
-                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo{FileName=parsed_params[2], UseShellExecute=true}) );
+                        picture_box.Click += new EventHandler((sender, e) =>
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = parsed_params[2], UseShellExecute = true }));
                         //-----end Add a hyperlink
 
                         Image obtained_information = System.Drawing.Image.FromStream(new System.IO.MemoryStream(image_bytes, 0, image_bytes.Length));
                         picture_box.Size = new System.Drawing.Size(obtained_information.Width, obtained_information.Height);
                         picture_box.Image = obtained_information;
                         picture_box.Location = new System.Drawing.Point(0, obtained_information_location);
-                        form2.obtained_information_list.Controls.Add(picture_box);
+                        displayer_form.obtained_information_list.Controls.Add(picture_box);
                         obtained_information_location += picture_box.Height;
                         //-----end insert received image into list   
 
@@ -168,15 +182,18 @@ namespace Information_notifier
                         Label label = new Label();
                         label.Text = "New information arrived from (" + parsed_params[0] + ") at (" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + ")\n" +
                         "------------------------------------------";
-                        label.Size = new System.Drawing.Size(form2.obtained_information_list.Width, 30);
-                        label.Font= new Font("Arial", 15);
+                        label.Size = new System.Drawing.Size(displayer_form.obtained_information_list.Width, 30);
+                        label.Font = new Font("Arial", 15);
                         label.Location = new System.Drawing.Point(0, obtained_information_location);
-                        form2.obtained_information_list.Controls.Add(label);
+                        displayer_form.obtained_information_list.Controls.Add(label);
                         obtained_information_location += label.Height;
 
                         // Scroll to the bottom
-                        form2.obtained_information_list.VerticalScroll.Value = form2.obtained_information_list.VerticalScroll.Maximum;
-                        form2.obtained_information_list.PerformLayout();
+                        displayer_form.obtained_information_list.VerticalScroll.Value = displayer_form.obtained_information_list.VerticalScroll.Maximum;
+                        displayer_form.obtained_information_list.PerformLayout();
+                        new_information_counter++;
+                        debugger.Text = "New information : " + new_information_counter.ToString();
+  
                     }));
                     if (alarm_turned_on)
                     {
@@ -232,6 +249,12 @@ namespace Information_notifier
             XPath_box.Text = XPaths[webpage_list.SelectedIndex];
             
         }
+
+        private void debugger_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void edit_webpage_Click(object sender, EventArgs e)
         {
             if (webpage_list.SelectedIndex < 0)

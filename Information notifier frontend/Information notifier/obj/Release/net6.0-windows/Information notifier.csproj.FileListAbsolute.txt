@@ -16,7 +16,6 @@ G:\Software\Projects\information_notifier\Information notifier\Information notif
 G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.pdb
 G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.genruntimeconfig.cache
 G:\Software\Projects\information_notifier\Information notifier\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.AssemblyReference.cache
-G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.AssemblyReference.cache
 G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier.Form1.resources
 G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier.Form2.resources
 G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.GenerateResource.cache
