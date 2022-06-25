@@ -33,3 +33,4 @@ G:\Software\Projects\Information_notifier\Information notifier frontend\Informat
 G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier_frontend.dll
 G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\ref\Information_notifier_frontend.dll
 G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information_notifier_frontend.pdb
+G:\Software\Projects\Information_notifier\Information notifier frontend\Information notifier\obj\Release\net6.0-windows\Information notifier.csproj.AssemblyReference.cache

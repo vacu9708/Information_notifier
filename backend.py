@@ -50,8 +50,7 @@ try:
     open("./webpage_list.txt", 'r', encoding='utf-8')
 except:
     database = open("./webpage_list.txt", 'w', encoding='utf-8')
-    database.write('((CNN)) ((https://edition.cnn.com/)) ((//*[@id="intl_homepage1-zone-1"]))')
-    database.write('((Youtube)) ((https://www.youtube.com/)) ((//*[@id="contents"]/ytd-rich-grid-row[1]))')
+    database.write('((Youtube)) ((https://www.youtube.com/)) ((/html/body/div[2]/div[2]/div[2]/div/div/div/div/div/div[1]/div/div[1]/div[1]/a/div/div[1]/img))')
     database.close()
 
 webpage_names=[]
@@ -267,9 +266,9 @@ def connect_to_frontend():
             port+=1
         
     server_socket.listen() # Be ready to accept incoming connection requests
-    # Execute frontend
+    # Execute frontendy
     import subprocess
-    subprocess.Popen(os.path.abspath(os.path.dirname(__file__))+f"\Frontend\Information_notifier_frontend.exe {str(port)}")
+    #subprocess.Popen(os.path.abspath(os.path.dirname(__file__))+f"\Frontend\Information_notifier_frontend.exe {str(port)}")
     accepted_client, address= server_socket.accept() # Accept the client socket
 
     threading.Thread(target=request_handler, args=[accepted_client]).start()

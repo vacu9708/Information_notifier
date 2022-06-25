@@ -149,11 +149,12 @@ namespace Information_notifier
                     while (!displayer_form.obtained_information_list.InvokeRequired) ;// Prevent cross-thread error
                     displayer_form.obtained_information_list.Invoke(new MethodInvoker(delegate
                     {
+                        // Full displayer
                         if (displayer_form.obtained_information_list.VerticalScroll.Maximum > 30000)
                         {
                             displayer_form = new Form2();
                             information_notifier_counter++;
-                            displayer_form.Name = "Information notifier " + information_notifier_counter;
+                            displayer_form.Text = "Information notifier " + information_notifier_counter;
                             displayer_form.Show();
                             obtained_information_location = 0;
                         }

@@ -34,18 +34,16 @@
             // obtained_information_list
             // 
             this.obtained_information_list.AutoScroll = true;
+            this.obtained_information_list.BackColor = System.Drawing.SystemColors.HighlightText;
             this.obtained_information_list.Location = new System.Drawing.Point(12, 12);
-            this.obtained_information_list.MaximumSize = new System.Drawing.Size(0, 999999999);
             this.obtained_information_list.Name = "obtained_information_list";
-            this.obtained_information_list.Size = new System.Drawing.Size(1225, 775);
+            this.obtained_information_list.Size = new System.Drawing.Size(1216, 767);
             this.obtained_information_list.TabIndex = 0;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1249, 799);
             this.Controls.Add(this.obtained_information_list);
             this.Name = "Form2";
