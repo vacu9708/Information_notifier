@@ -20,4 +20,4 @@ It is a program that lets you know each time new information is uploaded on webp
 
 ###The bigger "Number of browsers is" the faster notifying becomes, but it takes more computing resource.
 ### Each piece of information can be clicked as a hyperlink.
-### Information notifier.zip : Executable file
+### Executable file is in Information notifier.zip
