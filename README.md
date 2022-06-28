@@ -3,6 +3,8 @@
 
 ## About this program
 It is a program that lets you know each time new information is uploaded on webpages you set.
+
+## Why I made this
 My friend wanted to be notifed each time webpages that gave informaton of stock market he kept track on manually. I thought it would be good if it could be automated.
 
 ## 🧰 Used things
