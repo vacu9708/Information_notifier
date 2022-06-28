@@ -1,8 +1,9 @@
 # Information notifier
 ![image](https://user-images.githubusercontent.com/67142421/175791197-45eee1c5-5e88-49e6-9767-fdfd4647b531.png)
 
-## What is this program?
+## About this program
 It is a program that lets you know each time new information is uploaded on webpages you set.
+My friend wanted to be notifed each time webpages that gave informaton of stock market he kept track on manually. I thought it would be good if it could be automated.
 
 ## 🧰 Used things
 * Frontend : C#
