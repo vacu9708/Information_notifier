@@ -22,6 +22,6 @@ My friend wanted to get automatic notifications whenever webpages that gave him 
 5. Execute Information notifier.cmd
 
 ## Information
-* ### The bigger "Number of browsers is" the faster notifying becomes, but it takes more computing resource.
+* ### The bigger "Number of browsers", the faster notifying becomes, and the more computing resource.
 * ### Each piece of information can be clicked as a hyperlink.
-* ### Executable file is in Information notifier.zip
+* ### The executable file is in Information notifier.zip
