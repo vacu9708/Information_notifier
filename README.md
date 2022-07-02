@@ -21,6 +21,7 @@ My friend wanted to be notifed each time webpages that gave informaton of stock 
   -> Click on Copy -> Click on Copy Full XPath
 5. Execute Information notifier.cmd
 
-### The bigger "Number of browsers is" the faster notifying becomes, but it takes more computing resource.
-### Each piece of information can be clicked as a hyperlink.
-### Executable file is in Information notifier.zip
+## Information
+* ### The bigger "Number of browsers is" the faster notifying becomes, but it takes more computing resource.
+* ### Each piece of information can be clicked as a hyperlink.
+* ### Executable file is in Information notifier.zip
