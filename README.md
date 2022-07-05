@@ -21,6 +21,9 @@ My friend wanted to get automatic notifications whenever webpages that gave him 
   -> Click on Copy -> Click on Copy Full XPath
 5. Execute Information notifier.cmd
 
+## Database (txt file)
+![image](https://user-images.githubusercontent.com/67142421/177424709-c8829e8a-1b7e-4389-9f03-80aec3b6d01e.png)
+
 ## Information
 * ### The bigger "Number of browsers", the faster notifying becomes, and the more computing resource.
 * ### Each piece of information can be clicked as a hyperlink.
