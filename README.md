@@ -10,7 +10,8 @@ My friend wanted to get automatic notifications whenever webpages that gave him 
 ## 🧰 Used things
 * Frontend : C#
 * Backend : python
-* Database : notepad.txt
+* Inter Process Communication between C# frontend and Python backend
+* Database : txt file
 
 ## How to use
 1. Deal with webpages that require something like login on the web browser that is opened first.
