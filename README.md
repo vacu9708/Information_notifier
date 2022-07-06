@@ -29,3 +29,9 @@ My friend told me it would be great if he could get an automatic notification wh
 * ### The bigger "Number of browsers", the faster notifying becomes, and the more computing resource.
 * ### Each piece of information can be clicked as a hyperlink.
 * ### The executable file is in Information notifier.zip
+
+## Installation
+**backend**
+>pip install requirements.txt -> backend.py
+**frontend**
+>Information notifier frontend/Information notifier.sln
