@@ -31,7 +31,7 @@ My friend told me it would be great if he could get an automatic notification wh
 * ### The executable file is in Information notifier.zip
 
 ## Installation
-**backend**
->pip install requirements.txt -> backend.py
-**frontend**
+**backend**<br>
+>pip install requirements.txt -> backend.py<br>
+**frontend**<br>
 >Information notifier frontend/Information notifier.sln
