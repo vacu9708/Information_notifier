@@ -1,23 +1,31 @@
 # Information notifier
 ![image](https://user-images.githubusercontent.com/67142421/175791197-45eee1c5-5e88-49e6-9767-fdfd4647b531.png)
 
-## What is this program?
+## About this program
 It is a program that lets you know each time new information is uploaded on webpages you set.
+
+## Why I made this
+My friend told me it would be great if he could get an automatic notification whenever stock market information webpages that he kept track of were updated.
 
 ## 🧰 Used things
 * Frontend : C#
 * Backend : python
-* Database : notepad.txt
+* Inter Process Communication between C# frontend and Python backend
+* Database : txt file
 
 ## How to use
 1. Deal with webpages that require something like login on the web browser that is opened first.
 2. Put any name you want in Webpage name box.
-3. Put the webpage address you want to keep track on.
+3. Put the webpage address you want to keep track of.
 4. What to put in Full XPath box:
   Execute chrome -> Press Ctrl + Shift + C and click on the place whose change you want to know -> Right click on the selected part
   -> Click on Copy -> Click on Copy Full XPath
 5. Execute Information notifier.cmd
 
-### The bigger "Number of browsers is" the faster notifying becomes, but it takes more computing resource.
-### Each piece of information can be clicked as a hyperlink.
-### Executable file is in Information notifier.zip
+## Database (txt file)
+![image](https://user-images.githubusercontent.com/67142421/177424709-c8829e8a-1b7e-4389-9f03-80aec3b6d01e.png)
+
+## Information
+* ### The bigger "Number of browsers", the faster notifying becomes, and the more computing resource.
+* ### Each piece of information can be clicked as a hyperlink.
+* ### The executable file is in Information notifier.zip
