@@ -5,7 +5,7 @@
 It is a program that lets you know each time new information is uploaded on webpages you set.
 
 ## Why I made this
-My friend told me it would be great if he could get an automatic notification whenever stock market information webpages that he kept track on were updated.
+My friend told me it would be great if he could get an automatic notification whenever stock market information webpages that he kept track of were updated.
 
 ## 🧰 Used things
 * Frontend : C#
@@ -16,7 +16,7 @@ My friend told me it would be great if he could get an automatic notification wh
 ## How to use
 1. Deal with webpages that require something like login on the web browser that is opened first.
 2. Put any name you want in Webpage name box.
-3. Put the webpage address you want to keep track on.
+3. Put the webpage address you want to keep track of.
 4. What to put in Full XPath box:
   Execute chrome -> Press Ctrl + Shift + C and click on the place whose change you want to know -> Right click on the selected part
   -> Click on Copy -> Click on Copy Full XPath
