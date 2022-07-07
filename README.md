@@ -26,7 +26,7 @@ My friend told me it would be great if he could get an automatic notification wh
 ![image](https://user-images.githubusercontent.com/67142421/177424709-c8829e8a-1b7e-4389-9f03-80aec3b6d01e.png)
 
 ## Information
-* ### The bigger "Number of browsers", the faster notifying becomes, and the more computing resource.
+* ### The bigger "Number of browsers", the faster notifying becomes, and the more computing resource is taken.
 * ### Each piece of information can be clicked as a hyperlink.
 * ### The executable file is in Information notifier.zip
 
