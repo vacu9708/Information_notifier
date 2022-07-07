@@ -3,7 +3,7 @@
 
 ## Why I made this
 My friend told me it would be great if he could get notifications whenever stock market information webpages that he kept track of were updated.<br>
-He gave me opinions to improve the program and I applied them.
+He told me bugs and his opinions to improve the program and I applied them.
 
 ## About this program
 It is a program that lets you know each time new information is uploaded on webpages you set.
