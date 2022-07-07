@@ -5,7 +5,7 @@
 It is a program that lets you know each time new information is uploaded on webpages you set.
 
 ## Why I made this
-My friend told me it would be great if he could get an automatic notification whenever stock market information webpages that he kept track of were updated.
+My friend told me it would be great if he could get notifications whenever stock market information webpages that he kept track of were updated.
 
 ## 🧰 Used things
 * Frontend : C#
