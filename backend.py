@@ -259,7 +259,7 @@ def atexit_func():
     monitoring=False
     accepted_client.close()
     server_socket.close()
-    hile n_of_browsers_opened>0: pass
+    while n_of_browsers_opened>0: pass
 atexit.register(atexit_func)
 
 def stop_monitoring():
