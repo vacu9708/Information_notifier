@@ -45,7 +45,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.edit_webpage = new System.Windows.Forms.Button();
             this.reset_text_boxes = new System.Windows.Forms.Button();
-            this.debugger = new System.Windows.Forms.Label();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.new_information_displayer = new System.Windows.Forms.Label();
+            this.webpage_n = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // stop_monitoring
@@ -226,22 +229,43 @@
             this.reset_text_boxes.UseVisualStyleBackColor = false;
             this.reset_text_boxes.Click += new System.EventHandler(this.reset_text_boxes_Click);
             // 
-            // debugger
+            // trackBar1
             // 
-            this.debugger.AutoSize = true;
-            this.debugger.Location = new System.Drawing.Point(12, 410);
-            this.debugger.Name = "debugger";
-            this.debugger.Size = new System.Drawing.Size(140, 20);
-            this.debugger.TabIndex = 22;
-            this.debugger.Text = "New information : 0";
-            this.debugger.Click += new System.EventHandler(this.debugger_Click);
+            this.trackBar1.Location = new System.Drawing.Point(9, 384);
+            this.trackBar1.Maximum = 6;
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(130, 56);
+            this.trackBar1.TabIndex = 22;
+            this.trackBar1.Value = 1;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // new_information_displayer
+            // 
+            this.new_information_displayer.AutoSize = true;
+            this.new_information_displayer.Location = new System.Drawing.Point(558, 11);
+            this.new_information_displayer.Name = "new_information_displayer";
+            this.new_information_displayer.Size = new System.Drawing.Size(128, 20);
+            this.new_information_displayer.TabIndex = 23;
+            this.new_information_displayer.Text = "New information :";
+            // 
+            // webpage_n
+            // 
+            this.webpage_n.AutoSize = true;
+            this.webpage_n.Location = new System.Drawing.Point(138, 394);
+            this.webpage_n.Name = "webpage_n";
+            this.webpage_n.Size = new System.Drawing.Size(17, 20);
+            this.webpage_n.TabIndex = 24;
+            this.webpage_n.Text = "1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(799, 500);
-            this.Controls.Add(this.debugger);
+            this.Controls.Add(this.webpage_n);
+            this.Controls.Add(this.new_information_displayer);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.edit_webpage);
             this.Controls.Add(this.reset_text_boxes);
             this.Controls.Add(this.label4);
@@ -264,6 +288,7 @@
             this.Text = "Information notifier";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,7 +312,9 @@
         private Label label4;
         private Button edit_webpage;
         private Button reset_text_boxes;
-        private Label debugger;
+        private TrackBar trackBar1;
+        private Label new_information_displayer;
+        private Label webpage_n;
     }
 }
 

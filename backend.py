@@ -55,15 +55,17 @@ except:
 def open_webbrowser(is_show_webbrowser):
     options=webdriver.ChromeOptions()
     #options=Options()
+    # To bypass cralwer detector
     user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
     options.add_argument('user-agent=' + user_agent)
     options.add_argument("incognito")
     options.add_argument("lang=en_US")
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
+
     if not(is_show_webbrowser=="show_webbrowser"):
         options.add_argument("headless")
     driver = webdriver.Chrome(driver_path, options=options)
-    driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
     return driver
 
 # Default database
@@ -156,7 +158,7 @@ def start_monitoring(accepted_client, driver, beginning_index, ending_index):
     global monitoring
     monitoring=True
     prev_hashes=[]
-    i=0
+    i=0 # webpage index
     while i<ending_index:
         if not monitoring:
             driver.quit()
@@ -246,25 +248,19 @@ def start_monitoring_thread_maker(accepted_client, is_show_webbrowser, n_of_brow
         n_of_browsers_opened+=1
 
 import atexit
-def exit_drivers():
-    for i, driver in enumerate(drivers):
-        try:
-            print('Browser quit',i)
-            driver.quit()
-        except:
-            continue
+
 def atexit_func():
     global monitoring
     monitoring=False
     accepted_client.close()
     server_socket.close()
-    while n_of_browsers_opened>0: pass
 atexit.register(atexit_func)
 
 def stop_monitoring():
     global monitoring
     monitoring=False
-    while n_of_browsers_opened>0: pass
+    while n_of_browsers_opened: pass
+    print('browsers stopped')
 
 is_exit=False
 def request_handler(accepted_client): # Handling requests from client
@@ -291,30 +287,23 @@ def request_handler(accepted_client): # Handling requests from client
         # Event loop
         if params[0]=="start_monitoring":
             print("start_monitoring")
-            while n_of_browsers_opened>0: return
             start_monitoring_thread_maker(accepted_client, params[1], int(params[2]))
-             
-        if params[0]=="stop_monitoring":
+        elif params[0]=="stop_monitoring":
             print("stop_monitoring")
             stop_monitoring()
-            
-        if params[0]=="append_webpage":
+        elif params[0]=="append_webpage":
             print("append_webpage")
             append_webpage(params[1], params[2], params[3])
-        
-        if params[0]=="parse_database":
+        elif params[0]=="parse_database":
             print("parse_database")
             parse_database(accepted_client)
-                    
-        if params[0]=="delete_from_database":    
+        elif params[0]=="delete_from_database":
             print("delete_from_database")      
             delete_from_database(int(params[1]))
-        
-        if params[0]=="get_URL":
+        elif params[0]=="get_URL":
             print("get_URL")
             accepted_client.sendall(URLs[int(params[1])].encode())
-
-        if params[0]=="exit":
+        elif params[0]=="exit":
             print('exit')
             is_exit=True
             try:
@@ -322,8 +311,7 @@ def request_handler(accepted_client): # Handling requests from client
             except:
                 atexit_func()
             return
-
-        if params[0]=="edit_webpage":
+        elif params[0]=="edit_webpage":
             print("edit_webpage")
             delete_from_database(int(params[1]))
             append_webpage(params[2],params[3],params[4])

@@ -129,14 +129,14 @@ namespace Information_notifier
                 MessageBox.Show("Already monitoring");
                 return;
             }
-            
+            string hide = show_webbrowser.Checked ? "show_webbrowser" : "0";
+            client.Send(Encoding.UTF8.GetBytes("start_monitoring," + hide + ", " + trackBar1.Value));
+
             monitoring = true;
             start_monitoring.Text = "Monitoring ON";
             start_monitoring.BackColor = Color.Red;
             void thread()
             {
-                string hide = show_webbrowser.Checked ? "show_webbrowser" : "0";
-                client.Send(Encoding.UTF8.GetBytes("start_monitoring," + hide));
                 while (monitoring)
                 {
                     // Receive image, webpage index, and URL from server socket
@@ -193,8 +193,8 @@ namespace Information_notifier
                         displayer_form.obtained_information_list.VerticalScroll.Value = displayer_form.obtained_information_list.VerticalScroll.Maximum;
                         displayer_form.obtained_information_list.PerformLayout();
                         new_information_counter++;
-                        debugger.Text = "New information : " + new_information_counter.ToString();
-  
+                        new_information_displayer.Text = "New information : " + new_information_counter.ToString();
+
                     }));
                     if (alarm_turned_on)
                     {
@@ -215,7 +215,7 @@ namespace Information_notifier
         }
         private void open_page_Click(object sender, EventArgs e)
         {
-            if(webpage_list.SelectedIndex < 0)
+            if (webpage_list.SelectedIndex < 0)
             {
                 MessageBox.Show("Nothing selected");
                 return;
@@ -233,6 +233,12 @@ namespace Information_notifier
             client.Send(Encoding.UTF8.GetBytes("exit"));
             client.Close();
         }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            webpage_n.Text=trackBar1.Value.ToString();
+        }
+
         private void reset_text_boxes_Click(object sender, EventArgs e)
         {
             webpage_name_box.Clear();
@@ -240,6 +246,7 @@ namespace Information_notifier
             XPath_box.Clear();
             webpage_list.ClearSelected();
         }
+
         private void webpage_list_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (webpage_list.SelectedIndex < 0)
@@ -248,11 +255,6 @@ namespace Information_notifier
             webpage_name_box.Text = webpage_names[webpage_list.SelectedIndex];
             URL_box.Text = URLs[webpage_list.SelectedIndex];
             XPath_box.Text = XPaths[webpage_list.SelectedIndex];
-            
-        }
-
-        private void debugger_Click(object sender, EventArgs e)
-        {
 
         }
 
@@ -264,7 +266,7 @@ namespace Information_notifier
                 return;
             }
 
-            client.Send(Encoding.UTF8.GetBytes("edit_webpage,"+webpage_list.SelectedIndex+","+webpage_name_box.Text+","+ URL_box.Text+","+XPath_box.Text));
+            client.Send(Encoding.UTF8.GetBytes("edit_webpage," + webpage_list.SelectedIndex + "," + webpage_name_box.Text + "," + URL_box.Text + "," + XPath_box.Text));
 
             // Edit lists
             int selected_index = webpage_list.SelectedIndex;
