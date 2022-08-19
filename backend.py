@@ -187,7 +187,6 @@ def start_monitoring(accepted_client, driver, beginning_index, ending_index):
         for i in range(beginning_index, ending_index): # Webpage index
             if not monitoring:
                 driver.quit()
-                global n_of_browsers_opened
                 n_of_browsers_opened-=1
                 return
             try:
@@ -292,7 +291,7 @@ def request_handler(accepted_client): # Handling requests from client
         # Event loop
         if params[0]=="start_monitoring":
             print("start_monitoring")
-            hile n_of_browsers_opened>0: return
+            while n_of_browsers_opened>0: return
             start_monitoring_thread_maker(accepted_client, params[1], int(params[2]))
              
         if params[0]=="stop_monitoring":
