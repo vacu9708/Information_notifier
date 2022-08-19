@@ -2,6 +2,6 @@ __pycache__
 104
 build
 dist
-backend.py
+Frontend
 backend.spec
 webpage_list.txt
