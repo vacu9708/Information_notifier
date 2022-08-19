@@ -150,6 +150,7 @@ def append_webpage(webpage_name, URL, XPath):
     database.close()
 
 drivers=[]
+n_of_browsers_opened=0
 monitoring=False
 def start_monitoring(accepted_client, driver, beginning_index, ending_index):
     global monitoring
@@ -158,6 +159,9 @@ def start_monitoring(accepted_client, driver, beginning_index, ending_index):
     i=0
     while i<ending_index:
         if not monitoring:
+            driver.quit()
+            global n_of_browsers_opened
+            n_of_browsers_opened-=1
             return
         try:
             driver.get(URLs[i])
@@ -182,6 +186,9 @@ def start_monitoring(accepted_client, driver, beginning_index, ending_index):
     while True:
         for i in range(beginning_index, ending_index): # Webpage index
             if not monitoring:
+                driver.quit()
+                global n_of_browsers_opened
+                n_of_browsers_opened-=1
                 return
             try:
                 driver.get(URLs[i])
@@ -236,6 +243,8 @@ def start_monitoring_thread_maker(accepted_client, is_show_webbrowser, n_of_brow
         args=[accepted_client, drivers[i], beginning_index, ending_index], daemon=True).start()
         beginning_index=int( (beginning_index+webpage_length_per_browser)%len(webpage_names) )
         ending_index=beginning_index+webpage_length_per_browser
+        global n_of_browsers_opened
+        n_of_browsers_opened+=1
 
 import atexit
 def exit_drivers():
@@ -248,18 +257,15 @@ def exit_drivers():
 def atexit_func():
     global monitoring
     monitoring=False
-    exit_drivers()
     accepted_client.close()
     server_socket.close()
+    hile n_of_browsers_opened>0: pass
 atexit.register(atexit_func)
 
 def stop_monitoring():
     global monitoring
-    if not monitoring:
-        return
     monitoring=False
-    exit_drivers()
-    drivers.clear()
+    while n_of_browsers_opened>0: pass
 
 is_exit=False
 def request_handler(accepted_client): # Handling requests from client
@@ -286,6 +292,7 @@ def request_handler(accepted_client): # Handling requests from client
         # Event loop
         if params[0]=="start_monitoring":
             print("start_monitoring")
+            hile n_of_browsers_opened>0: return
             start_monitoring_thread_maker(accepted_client, params[1], int(params[2]))
              
         if params[0]=="stop_monitoring":
