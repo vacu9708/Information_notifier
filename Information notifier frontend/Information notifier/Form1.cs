@@ -24,10 +24,14 @@ namespace Information_notifier
         List<string> webpage_names;
         List<string> URLs;
         List<string> XPaths;
+        byte[] message;
+        bool socket_available;
+        
         public Form1(int port)
         {
             InitializeComponent();
-
+            socket_available=true;
+            message = new byte[9999999];
             this.monitoring = false;
             webpage_names = new List<string>();
             URLs = new List<string>();
@@ -40,6 +44,21 @@ namespace Information_notifier
             displayer_form.Show();
 
             information_notifier_counter = 1;
+        }
+        private string receive_from_server() // thread safe
+        {
+            while (!socket_available) continue;
+            socket_available = false;
+            client.Receive(message, message.Length, SocketFlags.None);
+            socket_available = true;
+            return Encoding.UTF8.GetString(message);
+        }
+        private void send_to_server(string message) // thread safe
+        {
+            while (!socket_available) continue;
+            socket_available = false;
+            client.Send(Encoding.UTF8.GetBytes(message));
+            socket_available = true;
         }
         private List<string> response_parser(string message)
         {
@@ -63,15 +82,14 @@ namespace Information_notifier
         private void Form1_Load(object sender, EventArgs e)
         {
             // Parse database
-            client.Send(Encoding.UTF8.GetBytes("parse_database"));
-            byte[] message = new byte[9999999];
+            send_to_server("parse_database");
             while (true) // If not the end of list
             {
-                client.Receive(message, message.Length, SocketFlags.None);
-                if (Encoding.UTF8.GetString(message)[0] == '$') // End of parsing database
+                string message=receive_from_server();
+                if (message[0] == '$') // End of parsing database
                     return;
 
-                List<string> parsed_params = response_parser(Encoding.UTF8.GetString(message));
+                List<string> parsed_params = response_parser(message);
                 webpage_names.Add(parsed_params[0]);
                 URLs.Add(parsed_params[1]);
                 XPaths.Add(parsed_params[2]);
@@ -88,9 +106,12 @@ namespace Information_notifier
                 return;
             }
             if (webpage_name_box.Text == "" || URL_box.Text == "" || XPath_box.Text == "")
+            {
+                MessageBox.Show("Empty input box");
                 return;
+            }
 
-            client.Send(Encoding.UTF8.GetBytes("append_webpage," + webpage_name_box.Text + "," + URL_box.Text + "," + XPath_box.Text));
+            send_to_server("append_webpage," + webpage_name_box.Text + "," + URL_box.Text + "," + XPath_box.Text);
 
             // Add to lists
             webpage_names.Add(webpage_name_box.Text);
@@ -117,7 +138,7 @@ namespace Information_notifier
                 MessageBox.Show("Please turn off monitoring first");
                 return;
             }
-            client.Send(Encoding.UTF8.GetBytes("delete_from_database," + webpage_list.SelectedIndex.ToString()));
+            send_to_server("delete_from_database," + webpage_list.SelectedIndex.ToString());
             if (webpage_list.SelectedIndex == -1)
                 return;
             webpage_list.Items.RemoveAt(webpage_list.SelectedIndex);
@@ -130,7 +151,7 @@ namespace Information_notifier
                 return;
             }
             string hide = show_webbrowser.Checked ? "show_webbrowser" : "0";
-            client.Send(Encoding.UTF8.GetBytes("start_monitoring," + hide + ", " + trackBar1.Value));
+            send_to_server("start_monitoring," + hide + ", " + trackBar1.Value);
 
             monitoring = true;
             start_monitoring.Text = "Monitoring ON";
@@ -140,9 +161,7 @@ namespace Information_notifier
                 while (monitoring)
                 {
                     // Receive image, webpage index, and URL from server socket
-                    byte[] message = new byte[9999999];
-                    client.Receive(message, message.Length, SocketFlags.None);
-                    List<string> parsed_params = response_parser(Encoding.UTF8.GetString(message));
+                    List<string> parsed_params = response_parser(receive_from_server());
                     byte[] image_bytes;
                     image_bytes = Convert.FromBase64String(parsed_params[1]);
 
@@ -208,7 +227,8 @@ namespace Information_notifier
         }
         private void stop_monitoring_Click(object sender, EventArgs e)
         {
-            client.Send(Encoding.UTF8.GetBytes("stop_monitoring"));
+            send_to_server("stop_monitoring");
+            receive_from_server(); // Wait for server echo
             monitoring = false;
             start_monitoring.BackColor = Color.Gold;
             start_monitoring.Text = "Start Monitoring";
@@ -230,7 +250,7 @@ namespace Information_notifier
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
 
-            client.Send(Encoding.UTF8.GetBytes("exit"));
+            send_to_server("exit");
             client.Close();
         }
 
@@ -266,7 +286,7 @@ namespace Information_notifier
                 return;
             }
 
-            client.Send(Encoding.UTF8.GetBytes("edit_webpage," + webpage_list.SelectedIndex + "," + webpage_name_box.Text + "," + URL_box.Text + "," + XPath_box.Text));
+            send_to_server("edit_webpage," + webpage_list.SelectedIndex + "," + webpage_name_box.Text + "," + URL_box.Text + "," + XPath_box.Text);
 
             // Edit lists
             int selected_index = webpage_list.SelectedIndex;
