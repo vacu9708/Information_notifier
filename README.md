@@ -6,7 +6,7 @@ My friend told me it would be great if he could get notifications whenever stock
 He told me about bugs and his opinions to improve the program and I applied them.
 
 ## About this program
-It is a program that lets you know each time new information is uploaded on webpages you set.
+It is a program that sends notifications each time new information is uploaded to specified webpages.
 
 ## 🧰 Used things
 * Frontend : C#
