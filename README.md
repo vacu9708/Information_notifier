@@ -40,9 +40,9 @@ It is a program that sends notifications each time new information is uploaded t
 2. Execute backend.py
 
 # Knowledge to bypass selenium detections
-- #### User-Agent Detection:
+- #### User-Agent Detection: (bypassed in the code)
 Websites can detect Selenium usage by analyzing the User-Agent header sent by the browser. If a website detects a User-Agent associated with Selenium, it may take preventive actions or display different content.
-- #### Headless Browser Detection:
+- #### Headless Browser Detection: (bypassed in the code)
 Headless browsers, such as those used by Selenium, operate without a visible user interface. Websites can check for the presence of specific browser configurations to identify and prevent selenium.
 - #### navigator.webdriver:
 This property is present in the JavaScript navigator object and is set to true when the browser is controlled by WebDriver, including Selenium. Websites can check for the value of navigator.webdriver to identify if the browser is being automated.
