@@ -44,5 +44,5 @@ It is a program that sends notifications each time new information is uploaded t
 Websites can detect Selenium usage by analyzing the User-Agent header sent by the browser. If a website detects a User-Agent associated with Selenium, it may take preventive actions or display different content.
 - #### Headless Browser Detection: (bypassed in this code)
 Headless browsers, such as those used by Selenium, operate without a visible user interface. Websites can check for the presence of specific browser configurations to identify and prevent selenium.
-- #### navigator.webdriver:
+- #### navigator.webdriver: (configurations are required to bypass this)
 This property is present in the JavaScript navigator object and is set to true when the browser is controlled by WebDriver, including Selenium. Websites can check for the value of navigator.webdriver to identify if the browser is being automated.
