@@ -21,7 +21,7 @@ It is a program that sends notifications each time new information is uploaded t
 4. What to put in Full XPath box:
   Execute chrome -> Press Ctrl + Shift + C and click on the place whose change you want to know -> Right click on the selected part
   -> Click on Copy -> Click on Copy Full XPath
-5. Execute Information notifier.cmd
+5. Execute backend.exe
 
 # Database (txt file)
 ![image](https://user-images.githubusercontent.com/67142421/177424709-c8829e8a-1b7e-4389-9f03-80aec3b6d01e.png)
